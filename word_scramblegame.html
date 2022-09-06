@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Carter+One&display=swap" rel="stylesheet">
+    <style>
+        *{
+            padding:0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        header{
+            background-color: #20bf6b;
+            line-height:15vh;
+            width:100%;
+        }
+        h1{
+            font-family: 'Carter One', cursive;
+            text-align: center;
+            color: #fff;
+            letter-spacing: 15px;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            text-shadow:0 1px 0 #efefef,
+            0 2px 0 #efefef,
+            0 4px 0 #efefef,
+            0 30px 5px rgba(0,0,0,.1);
+        }
+        section{
+            height:85vh; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #7bed9f;
+        }
+        .gameArea{
+            width:50%;
+            height:400px;
+            padding:20px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-color:#28e573 ;
+            box-shadow: 0px 8px 6px -6px black;
+
+        }
+        input{
+            width:40% ;
+            padding:15px 0;
+            text-align: center;
+            border-radius: 25px;
+            outline: none;
+            background-color: #dff9fb;
+            color: black;
+            margin:2rem 0;
+            font-size:1.1rem ;
+        }
+
+        button{
+            font-size: 1rem;
+            cursor: pointer ;
+            outline:none;
+            border: #2f3542;
+            margin-top:10px;
+            color:#eb4d4b;
+
+        }
+        button.btn{
+            font-weight: 600;
+            padding: 1rem 2rem;
+            background-color: #fff;
+            text-transform: uppercase;
+            transition-property:all;
+            transition-duration:0.5s;
+            transition-timing-function:cubic-bazier(.65,-.25,.25,1.95);
+
+        }
+        button.btn:hover, button.btn:focus, button.btn:active{
+            letter-spacing:0.125rem;
+            word-spacing:0.2rem;
+        }
+        .hidden{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Guess the word Game</h1>
+    </header>
+    <section>
+        <div class="gameArea">
+            <h3 class="msg"></h3>
+            <input type="text" class="hidden">
+            <button class="btn">Click here to start</button>
+        </div>
+    </section>
+
+
+    <script>
+        const msg = document.querySelector('.msg');
+        const guess = document.querySelector('input');
+        const btn = document.querySelector('.btn');
+       let play = false;
+       let newWords ="";
+       let randWords = "";
+       let sWords = ['python','javascript','PHP','c','c++','c#','java','html','css','reactjs','angular','swift','android','sql']; 
+
+       const creteNewWords = ()=>{
+
+        let ranNum = Math.floor(Math.random() * sWords.length);
+
+           let newTempSwords =  sWords[ranNum];
+
+          // console.log(newTempSwords.split(""));
+
+
+        return newTempSwords;
+       }
+
+
+       const scrambleWords = (array)=> {
+        for(let i = array.length-1;i>0;i--){
+            let temp  =  array[i];
+           //console.log(temp);
+            let j = Math.floor(Math.random()*(i+1));
+           // console.log(i);
+            //console.log(j);
+            
+            array[i] = array[j];
+            array[j] = temp;
+        }
+        return array;
+       }
+       
+
+        btn.addEventListener('click',function(){
+            if(!play){
+                play =true;
+                btn.innerHTML= 'Guess';
+                guess.classList.toggle('hidden');
+                 newWords  = creteNewWords();
+
+                randWords = scrambleWords(newWords.split("")).join("");
+                //split("") function is used to spilt or change  the string to array
+                msg.innerHTML=randWords;
+                //console.log(randWords);
+               
+
+
+            }
+            else{
+                let tempWord = guess.value;
+                if(tempWord===newWords){
+                  //  alert("Hurray ! Correct");
+                  play=false;
+                  msg.innerHTML = `Awesome its correct ! It is ${newWords}`;
+                  btn.innerHTML = 'Start Again';
+                  guess.value;
+
+                }else{
+                    alert("Incorrect answer !! Please Try again"+tempWord+'hi '+newWords);
+                }
+            }
+        })
+    </script>
+</body>
+</html>
